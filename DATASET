@@ -1,0 +1,129 @@
+Perkiraan rata-rata pemain Dota 2 yang online bersamaan per tahun. Garis putus-putus menandai 2026 yang masih berjalan.
+1. Table
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Data tabel
+data = {
+    "Tahun": list(range(2013, 2027)),
+    "Rata-rata pemain bersamaan": [
+        "250.042", "474.745", "561.580", "638.268",
+        "533.029", "454.787", "477.651", "433.340",
+        "422.208", "466.160", "429.803", "450.708",
+        "479.271", "521.412"
+    ],
+    "Cakupan": [
+        "Penuh", "Penuh", "Penuh", "Penuh",
+        "Penuh", "Penuh", "Penuh", "Penuh",
+        "Penuh", "Penuh", "Penuh", "Penuh",
+        "Penuh", "Jan–Sep (sementara)"
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Membuat tampilan tabel
+fig, ax = plt.subplots(figsize=(12, 7))
+ax.axis("off")
+
+tabel = ax.table(
+    cellText=df.values,
+    colLabels=df.columns,
+    cellLoc="left",
+    colLoc="left",
+    loc="center",
+    colWidths=[0.15, 0.36, 0.30]
+)
+
+# Mengatur ukuran tulisan
+tabel.auto_set_font_size(False)
+tabel.set_fontsize(11)
+tabel.scale(1, 1.7)
+
+# Mengatur warna, garis, dan huruf
+for (baris, kolom), sel in tabel.get_celld().items():
+    sel.set_edgecolor("#555555")
+    sel.set_linewidth(0.7)
+
+    if baris == 0:
+        sel.set_facecolor("white")
+        sel.set_text_props(weight="bold")
+    else:
+        if baris % 2 == 1:
+            sel.set_facecolor("#D2DEEF")
+        else:
+            sel.set_facecolor("white")
+
+        if kolom == 0:
+            sel.set_text_props(weight="bold")
+
+plt.tight_layout()
+plt.show()
+
+2. Grafik
+
+import matplotlib.pyplot as plt
+
+# Data tahun
+tahun = list(range(2013, 2027))
+
+# Rata-rata pemain Dota 2 yang online bersamaan
+pemain = [
+    250000, 475000, 560000, 637000,
+    533000, 455000, 478000, 432000,
+    422000, 466000, 428000, 450000,
+    480000, 520000
+]
+
+# Data historis: 2013–2024
+tahun_historis = tahun[:12]
+pemain_historis = pemain[:12]
+
+# Data perkiraan: 2025–2026
+tahun_perkiraan = tahun[12:]
+pemain_perkiraan = pemain[12:]
+
+# Membuat grafik
+plt.figure(figsize=(12, 6))
+
+# Garis data historis
+plt.plot(
+    tahun_historis,
+    pemain_historis,
+    color='tab:blue',
+    marker='o',
+    linewidth=2,
+    markersize=5,
+    label='Data historis'
+)
+
+# Garis data perkiraan
+plt.plot(
+    [tahun_historis[-1]] + tahun_perkiraan,
+    [pemain_historis[-1]] + pemain_perkiraan,
+    color='tab:orange',
+    marker='o',
+    linestyle='--',
+    linewidth=2,
+    markersize=5,
+    label='Perkiraan'
+)
+
+# Judul dan label sumbu
+plt.title(
+    'Dota 2: Rata-rata Pemain Bersamaan per Tahun'
+)
+plt.xlabel('Tahun')
+plt.ylabel('Rata-rata pemain online bersamaan')
+
+# Pengaturan sumbu
+plt.xticks(tahun, rotation=45)
+plt.ylim(230000, 660000)
+
+# Grid dan legenda
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+
+# Menampilkan grafik
+plt.show()
